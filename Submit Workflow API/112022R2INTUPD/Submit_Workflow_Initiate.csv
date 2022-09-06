@@ -1,0 +1,4 @@
+baseUrl,SolutionCode,Username,Password,TYPE,CATEGORY,SOURCE,QUALITY_PORTAL,NUMBERING_SCHEME_CODE,OWNING_SITE_NAME,OWNING_SITE_CODE,PRODUCTLINE_CODE,PRODUCTLINE_NAME,PRODUCT_NAME,PRODUCT_CODE,TITLE,PROBLEM_STATEMENT,FileName,FileStream
+https://dev-wopi.pilgrimasp.com/112022R2INTUPD,CAPA,smartadmin@iqvia.com,Pilgrim!1,Internal,Product,General,FALSE,Numbering,Default,DEFAULT,CAPA_PL2,CAPA_PL2,CAPA_Prod3,CAPA_Prod3,Title,Desc,TaskFlow_Full.xml,TaskFlow_Delta (1).xml
+https://dev-wopi.pilgrimasp.com/112022R2INTUPD,CAPA,smartadmin@iqvia.com,Pilgrim!1,Internal,Product,General,FALSE,Numbering,Default,DEFAULT,CAPA_PL2,CAPA_PL2,CAPA_Prod3,CAPA_Prod3,Title,Desc,TaskFlow_Full.xml,TaskFlow_Delta (1).xml
+https://dev-wopi.pilgrimasp.com/112022R2INTUPD,CAPA,smartadmin@iqvia.com,Pilgrim!1,Internal,Product,General,FALSE,Numbering,Default,DEFAULT,CAPA_PL2,CAPA_PL2,CAPA_Prod3,CAPA_Prod3,Title,Desc,TaskFlow_Full.xml,TaskFlow_Delta (1).xml

@@ -1,0 +1,45 @@
+COLUMNLIST,DATASOURCENAME,DATASOURCETYPE,DATAKEYFIELD,DATASOURCETYPESTR,FILTERS,GETTOTALROWS,ORDERBY,SORTEXPRESSION,PAGENUMBER,PAGESIZE,QUERYNAME,SEARCHOPTION,SEARCHTEXT
+"XPR_CODE,XPR_RANK",Priority,3,,SMARTSOLVEDATA,[],FALSE,null,XPR_RANK ASC,1,0,null,null,null
+"XPR_CODE,XPR_RANK",Priority,3,,SMARTSOLVEDATA,[],FALSE,null,XPR_RANK ASC,1,0,null,null,null
+"B_CODE,A_OCCURRENCE_RATING,A_REQUIRED_ACTION,A_SEVERITY_RATING,A_PARENT_GT_ID",SS_HEAT_MAP_DETAIL_REPORT,3,,SMARTSOLVEDATA,"[
+ {
+""openGroup"": ""false"",
+""leftType"": ""datasource"",
+""leftValue"": ""B_SOLUTION_CODE"",
+""op"": ""EQ"",
+""rightType"": ""text"",
+""rightValue"": ""CAPA"",
+""closeGroup"": ""false"",
+""relationalOp"": ""AND""
+ },
+{
+""openGroup"": ""false"",
+""leftType"": ""datasource"",
+""leftValue"": ""A_SEVERITY_RATING"",
+""op"": ""EQ"",
+""rightType"": ""column"",
+""rightValue"": 1,
+""closeGroup"": ""false"",
+""relationalOp"": ""AND""
+},
+ {
+""openGroup"": ""false"",
+""leftType"": ""datasource"",
+""leftValue"": ""A_OCCURRENCE_RATING"",
+""op"": ""EQ"",
+""rightType"": ""column"",
+""rightValue"": 1,
+""closeGroup"": ""false"",
+""relationalOp"": ""AND""
+},
+{
+""openGroup"": ""false"",
+""leftType"": ""datasource"",
+""leftValue"": ""B_CODE"",
+""op"": ""EQ"",
+""rightType"": ""column"",
+""rightValue"": ""CAPASITE30.9CAPAnull"",
+""closeGroup"": ""false"",
+""relationalOp"": ""AND""
+}
+]",FALSE,[],,1,0,null,null,null
