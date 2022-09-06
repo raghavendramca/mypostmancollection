@@ -1,0 +1,1056 @@
+{
+	"info": {
+		"_postman_id": "9ec79ee3-db4f-4408-bb58-6905a2887571",
+		"name": "LoginAPIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Login Method",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });\r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;\r",
+							"            });\r",
+							"        }\r",
+							"    }\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");\r",
+							"console.log(\"value of base url from data file is: \"+pm.iterationData.get(\"baseUrl\"));\r",
+							"console.log(\"value of username from data file is:: \"+pm.iterationData.get(\"Username\"));\r",
+							"\r",
+							"pm.collectionVariables.set(\"baseUrl\",pm.iterationData.get(\"baseUrl\"));\r",
+							"pm.collectionVariables.set(\"Username\",pm.iterationData.get(\"Username\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "{{METHOD}}",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{Username}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/getLoginMethod",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"getLoginMethod"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = \r",
+							"{\r",
+							"    \"type\": \"object\",\r",
+							"    \"required\": [\r",
+							"        \"ActorFirstName\",\r",
+							"        \"ActorLastName\",\r",
+							"        \"RequirePasswordChange\",\r",
+							"        \"Token\",\r",
+							"        \"UserFullName\",\r",
+							"        \"ActorCode\",\r",
+							"        \"ActorCodeWithDomain\",\r",
+							"        \"licId\",\r",
+							"        \"sessionExpirationErrorCode\",\r",
+							"        \"sessionExpirationErrorMessage\",\r",
+							"        \"culture\",\r",
+							"        \"LoggedOnRoleCode\",\r",
+							"        \"hasError\"\r",
+							"    ],\r",
+							"    \"additionalProperties\": true,\r",
+							"    \"properties\": {\r",
+							"        \"ActorFirstName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorLastName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"RequirePasswordChange\": {\r",
+							"            \"type\": \"boolean\"\r",
+							"        },\r",
+							"        \"Token\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"UserFullName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorCodeWithDomain\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"licId\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"sessionExpirationErrorCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"sessionExpirationErrorMessage\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"culture\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"LoggedOnRoleCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"hasError\": {\r",
+							"            \"type\": \"boolean\"\r",
+							"        }\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"if(schema)\r",
+							"{\r",
+							" var jsonData = pm.response.json();\r",
+							" if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });\r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;\r",
+							"                pm.expect(jsonData.Token).to.be.a(\"string\");\r",
+							"                pm.expect(jsonData.ActorCode).to.be.an(\"string\");\r",
+							"            });\r",
+							"            pm.collectionVariables.set(\"token\", jsonData.Token);\r",
+							"            pm.collectionVariables.set(\"culture\", JSON.stringify(jsonData.culture));\r",
+							"            pm.collectionVariables.set(\"ActorCode\", jsonData.ActorCode);           \r",
+							"        }\r",
+							"        var Ajv = require('ajv');\r",
+							"        const ajv = new Ajv();\r",
+							"        pm.test(\"Login schema validation\", () => {\r",
+							"        const validate = ajv.compile(schema);\r",
+							"        console.log(validate);\r",
+							"        const valid = validate(jsonData);\r",
+							"        if(!valid) console.log(validate.errors);\r",
+							"        console.log(valid);\r",
+							"        pm.expect(valid).to.be.true;\r",
+							"        });       \r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");\r",
+							"console.log(\"value of type from data file is: \"+pm.iterationData.get(\"SolutionCode\"));\r",
+							"console.log(\"value of type from data file is: \"+pm.iterationData.get(\"Password\"));\r",
+							"\r",
+							"pm.collectionVariables.set(\"SolutionCode\",pm.iterationData.get(\"SolutionCode\"));\r",
+							"pm.collectionVariables.set(\"Password\",pm.iterationData.get(\"Password\"));\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "{{METHOD}}",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\": \"{{Username}}\", \r\n    \"Password\": \"{{Password}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create PAT",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });\r",
+							"                 \r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;\r",
+							"                pm.expect(jsonData.pat).to.be.a(\"string\");\r",
+							"                pm.expect(jsonData.message).to.be.an(\"string\");\r",
+							"            });\r",
+							"            pm.collectionVariables.set(\"pat\", jsonData.pat);\r",
+							"        }\r",
+							"    }    "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{{{token}}}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "{{METHOD}}",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{token}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/createpat",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"createpat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create PAT and Logout",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });\r",
+							"                 \r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;               \r",
+							"            });\r",
+							"            pm.collectionVariables.unset(\"token\");\r",
+							"            pm.collectionVariables.unset(\"baseUrl\");\r",
+							"            pm.collectionVariables.unset(\"Username\");\r",
+							"            pm.collectionVariables.unset(\"Password\");\r",
+							"        }\r",
+							"    }    "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{{{token}}}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "{{METHOD}}",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/apis/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginFromPat",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = \r",
+							"{\r",
+							"    \"type\": \"object\",\r",
+							"    \"required\": [\r",
+							"        \"ActorFirstName\",\r",
+							"        \"ActorLastName\",\r",
+							"        \"RequirePasswordChange\",\r",
+							"        \"Token\",\r",
+							"        \"UserFullName\",\r",
+							"        \"ActorCode\",\r",
+							"        \"ActorCodeWithDomain\",\r",
+							"        \"licId\",\r",
+							"        \"sessionExpirationErrorCode\",\r",
+							"        \"sessionExpirationErrorMessage\",\r",
+							"        \"culture\",\r",
+							"        \"LoggedOnRoleCode\",\r",
+							"        \"hasError\"\r",
+							"    ],\r",
+							"    \"additionalProperties\": true,\r",
+							"    \"properties\": {\r",
+							"        \"ActorFirstName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorLastName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"RequirePasswordChange\": {\r",
+							"            \"type\": \"boolean\"\r",
+							"        },\r",
+							"        \"Token\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"UserFullName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorCodeWithDomain\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"licId\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"sessionExpirationErrorCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"sessionExpirationErrorMessage\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"culture\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"LoggedOnRoleCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"hasError\": {\r",
+							"            \"type\": \"boolean\"\r",
+							"        }\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"if(schema)\r",
+							"{\r",
+							" var jsonData = pm.response.json();\r",
+							" if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });                 \r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;\r",
+							"                pm.expect(jsonData.Token).to.be.a(\"string\");\r",
+							"                pm.expect(jsonData.ActorCode).to.be.an(\"string\");\r",
+							"            });\r",
+							"            pm.collectionVariables.set(\"token\", jsonData.Token);\r",
+							"            pm.collectionVariables.set(\"culture\", JSON.stringify(jsonData.culture));\r",
+							"            pm.collectionVariables.set(\"ActorCode\", jsonData.ActorCode);\r",
+							"        }\r",
+							"        var Ajv = require('ajv');\r",
+							"        const ajv = new Ajv();\r",
+							"        pm.test(\"Login from Pat schema validation\", () => {\r",
+							"        const validate = ajv.compile(schema);\r",
+							"        console.log(validate);\r",
+							"        const valid = validate(jsonData);\r",
+							"        if(!valid) console.log(validate.errors);\r",
+							"        console.log(valid);\r",
+							"        pm.expect(valid).to.be.true;\r",
+							"        });       \r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{pat}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{{{token}}}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "{{METHOD}}",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJQRVJTT05BTEFDQ0VTUyI6IntcIk9yZ2FuaXphdGlvbkNvZGVcIjpcIkdMT0JBTFwiLFwiVXNlck5hbWVcIjpcIlNNQVJUQURNSU5AaXF2aWEuY29tXCIsXCJBcHBsTGljZW5zZVJlZ2lzdHJhdGlvbklEXCI6bnVsbCxcIlVzZXJMaWNlbnNlUmVnaXN0cmF0aW9uSURcIjpudWxsfSIsImlzcyI6IklRVklBIiwiYXVkIjoiU01BUlRTT0xWRSIsImV4cCI6MTY4OTk1ODIyMiwibmJmIjoxNjU4NDIyMjIyfQ.wdkbiQQFzmjSopjEZVjjl29fW65CEjakXacCYHei-Fo",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/loginUsingToken",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"loginUsingToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Revoke PAT",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });\r",
+							"                 \r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;\r",
+							"                pm.expect(jsonData.message).to.be.an(\"string\");\r",
+							"                pm.expect(jsonData.message).to.equal(\"Personal Access Token has been successfully Revoked\")\r",
+							"            });\r",
+							"            pm.collectionVariables.unset(\"pat\");\r",
+							"        }\r",
+							"    }    "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{{{token}}}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "{{METHOD}}",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\"\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/revokepat",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"revokepat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Installedversions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should be 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should has no error\", () => {\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"\r",
+							"    var jsonData = JSON.parse(responseBody)\r",
+							"    pm.expect(jsonData.hasError).to.eql(false);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should has the module installed\", () => {\r",
+							"    pm.response.to.be.not.empty;\r",
+							"    pm.response.to.be.json;\r",
+							"\r",
+							"    var jsonData = JSON.parse(responseBody)\r",
+							"    pm.expect(jsonData.Result).not.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{{{token}}}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "{{METHOD}}",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/installedversions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"installedversions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login After Revoke PAT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var solution = pm.collectionVariables.get(\"SolutionCode\");\r",
+							" \r",
+							"var schema = \r",
+							"{\r",
+							"    \"type\": \"object\",\r",
+							"    \"required\": [\r",
+							"        \"ActorFirstName\",\r",
+							"        \"ActorLastName\",\r",
+							"        \"RequirePasswordChange\",\r",
+							"        \"Token\",\r",
+							"        \"UserFullName\",\r",
+							"        \"ActorCode\",\r",
+							"        \"ActorCodeWithDomain\",\r",
+							"        \"licId\",\r",
+							"        \"sessionExpirationErrorCode\",\r",
+							"        \"sessionExpirationErrorMessage\",\r",
+							"        \"culture\",\r",
+							"        \"LoggedOnRoleCode\",\r",
+							"        \"hasError\"\r",
+							"    ],\r",
+							"    \"additionalProperties\": true,\r",
+							"    \"properties\": {\r",
+							"        \"ActorFirstName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorLastName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"RequirePasswordChange\": {\r",
+							"            \"type\": \"boolean\"\r",
+							"        },\r",
+							"        \"Token\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"UserFullName\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"ActorCodeWithDomain\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"licId\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"sessionExpirationErrorCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"sessionExpirationErrorMessage\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"culture\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"LoggedOnRoleCode\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"hasError\": {\r",
+							"            \"type\": \"boolean\"\r",
+							"        }\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"if(schema)\r",
+							"{\r",
+							" var jsonData = pm.response.json();\r",
+							" if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });\r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;\r",
+							"                pm.expect(jsonData.Token).to.be.a(\"string\");\r",
+							"                pm.expect(jsonData.ActorCode).to.be.an(\"string\");\r",
+							"            });\r",
+							"            pm.collectionVariables.set(\"token\", jsonData.Token);\r",
+							"            pm.collectionVariables.set(\"culture\", JSON.stringify(jsonData.culture));\r",
+							"            pm.collectionVariables.set(\"ActorCode\", jsonData.ActorCode);            \r",
+							"        }\r",
+							"        var Ajv = require('ajv');\r",
+							"        const ajv = new Ajv();\r",
+							"        pm.test(\"Login schema validation\", () => {\r",
+							"        const validate = ajv.compile(schema);\r",
+							"        console.log(validate);\r",
+							"        const valid = validate(jsonData);\r",
+							"        if(!valid) console.log(validate.errors);\r",
+							"        console.log(valid);\r",
+							"        pm.expect(valid).to.be.true;\r",
+							"        });       \r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");\r",
+							"\r",
+							"pm.collectionVariables.set(\"baseUrl\",pm.iterationData.get(\"baseUrl\"));\r",
+							"pm.collectionVariables.set(\"Username\",pm.iterationData.get(\"Username\"));\r",
+							"pm.collectionVariables.set(\"Password\",pm.iterationData.get(\"Password\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "{{METHOD}}",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\": \"{{Username}}\", \r\n    \"Password\": \"{{Password}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"METHOD\", \"POST\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							" if(jsonData)\r",
+							"    {\r",
+							"        if(jsonData.hasError)\r",
+							"        {\r",
+							"                    pm.test(\"Response should be 200\", () => {\r",
+							"                        pm.response.to.have.status(200);\r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json;\r",
+							"                    });\r",
+							"                    pm.test(\"Response should have error\", ()=> {  \r",
+							"                        pm.response.to.be.not.empty;\r",
+							"                        pm.response.to.be.json; \r",
+							"                        pm.expect(jsonData.hasError).to.be.true;\r",
+							"                    });\r",
+							"                    pm.test(\"Error properties\", () => { \r",
+							"                        pm.expect(jsonData.errors).not.empty;\r",
+							"                    _.each(jsonData.errors, (item) => {\r",
+							"                        console.log(item.errorNumber);\r",
+							"                        console.log(item.errorMessage);\r",
+							"                        }); \r",
+							"                 });\r",
+							"                 \r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            pm.test(\"Test data type of the response\", () => {                \r",
+							"                pm.expect(jsonData).to.be.an(\"object\");\r",
+							"                pm.expect(jsonData.hasError).to.be.false;               \r",
+							"            });\r",
+							"            pm.collectionVariables.unset(\"token\");\r",
+							"            pm.collectionVariables.unset(\"culture\");\r",
+							"            pm.collectionVariables.unset(\"ActorCode\");\r",
+							"            pm.collectionVariables.unset(\"baseUrl\");\r",
+							"            pm.collectionVariables.unset(\"Username\");\r",
+							"            pm.collectionVariables.unset(\"Password\");\r",
+							"        }\r",
+							"    }    "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{{{token}}}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "{{METHOD}}",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/apis/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
